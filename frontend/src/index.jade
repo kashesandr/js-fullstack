@@ -1,9 +1,10 @@
 doctype html
-html(lang="en" ng-app="App")
+html(lang="en")
    head
       meta(charset='utf-8')
       title App
       <!-- inject:css --> <!-- endinject -->
    body
-      main
+      div(ng-app="App")
+         ng-view
       <!-- inject:js --> <!-- endinject -->
