@@ -54,7 +54,7 @@ gulp.task 'templateCache', ->
                 """
                     (function() {
                         'use strict';
-                        angular.module('main').run(function($templateCache) {
+                        angular.module('App').run(function($templateCache) {
                 """
             templateFooter:
                 """
@@ -72,6 +72,7 @@ gulp.task 'copy:js', ->
         "#{bowerPath}/angular-moment/angular-moment.min.js"
         "#{bowerPath}/angular-bootstrap/ui-bootstrap.min.js"
         "#{bowerPath}/angular-bootstrap/ui-bootstrap-tpls.min.js"
+        "#{bowerPath}/angular-route/angular-route.js"
         "#{frontendSrc}/**/*.coffee"
         "#{frontendSrc}/scripts/services/settings.js"
         "#{frontendSrc}/templates.js"

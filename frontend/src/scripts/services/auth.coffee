@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular 'App'
+app = angular.module 'App'
 
 app.factory 'AuthService', ->
   {

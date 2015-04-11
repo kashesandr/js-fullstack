@@ -2,14 +2,11 @@
 
 app = angular
 
-.module 'App',
-  ['angularMoment', 'ui.bootstrap', 'GlobalConfigs', 'UserService', 'AuthService']
+.module 'App', ['angularMoment', 'ui.bootstrap', 'GlobalConfigs', 'ngRoute']
 
-.config ($httpProvider) ->
+.config ($httpProvider, $routeProvider) ->
   $httpProvider.interceptors.push 'TokenInterceptor'
-
-.config ($location, $routeProvider) ->
-    $routeProvider
+  $routeProvider
     .when '/main',
       templateUrl: 'scripts/main/template.html'
       controller: 'mainController'
@@ -22,7 +19,7 @@ app = angular
       templateUrl: 'scripts/pages/logout/template.html'
       controller: 'logoutController'
       access: requiredLogin: true
-    .otherwise redirectTo: '/'
+    #.otherwise redirectTo: '/login'
 
 .run ($rootScope, $location, AuthService) ->
   $rootScope.$on '$routeChangeStart', (event, nextRoute, currentRoute) ->
