@@ -5,12 +5,20 @@
             table.table.table-striped.table-bordered.table-hover.table-condensed
                 thead
                     th #
-                    th 1
-                    th 2
-                    th 3
+                    th(ng-click="orderByField='username'; reverseSort = !reverseSort") Username
+                    th(ng-click="orderByField='password'; reverseSort = !reverseSort") Password
+                    th(ng-click="orderByField='firstname'; reverseSort = !reverseSort") First Name
+                    th(ng-click="orderByField='lastname'; reverseSort = !reverseSort") Last Name
+                    th(ng-click="orderByField='street'; reverseSort = !reverseSort") Street
+                    th(ng-click="orderByField='zip'; reverseSort = !reverseSort") ZIP
+                    th(ng-click="orderByField='location'; reverseSort = !reverseSort") Location
                 tbody
-                    tr(ng-repeat="item in data")
-                        td 1
-                        td 2
-                        td 3
-                        td 4
+                    tr(ng-repeat="item in data | orderBy:orderByField:reverseSort")
+                        td {{$index}}
+                        td {{item.username}}
+                        td {{item.password}}
+                        td {{item.firstname}}
+                        td {{item.lastname}}
+                        td {{item.street}}
+                        td {{item.zip}}
+                        td {{item.location}}
