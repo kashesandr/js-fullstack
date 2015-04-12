@@ -5,6 +5,7 @@ mysqlOptions = {}
 
 connection = mysql.createConnection
   host: 'localhost'
+  database: 'test-app'
   user: 'root'
   password: 'root'
   port: 3306
@@ -16,7 +17,23 @@ connection.connect (error) ->
   else
     console.log "Connection successful to mysql: id is #{connection.threadId}"
 
-User = {}
+user =
+  findOne: (obj, callback) ->
+    key = null
+    value = null
+    for k, v of obj
+      key = k
+      value = v
+    connection.query {
+      sql: "SELECT * FROM users where #{key} = ?"
+      values: [value]
+    }, (error, results) ->
+      callback error, results[0]
 
-module.exports =
-  User
+
+
+
+
+module.exports = {
+  user
+}

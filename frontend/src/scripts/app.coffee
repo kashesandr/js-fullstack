@@ -8,7 +8,7 @@ app = angular
   $httpProvider.interceptors.push 'TokenInterceptor'
   $routeProvider
     .when '/main',
-      templateUrl: 'scripts/main/template.html'
+      templateUrl: 'scripts/pages/main/template.html'
       controller: 'mainController'
       access: requiredLogin: true
     .when '/login',
