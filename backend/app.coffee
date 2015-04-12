@@ -11,6 +11,7 @@ PORT = 3001
 app.listen PORT
 app.use bodyParser()
 app.use morgan()
+app.use express.static('../frontend/build')
 
 #Routes
 routes = {}

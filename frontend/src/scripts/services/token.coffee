@@ -9,12 +9,15 @@ app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
       if $window.sessionStorage.token
         config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token
       config
+
     requestError: (rejection) ->
       $q.reject rejection
+
     response: (response) ->
       if response isnt null and response.status is 200 and $window.sessionStorage.token and !AuthService.isAuthenticated
         AuthService.isAuthenticated = true
       response or $q.when(response)
+
     responseError: (rejection) ->
       if rejection != null and rejection.status == 401 and ($window.sessionStorage.token or AuthService.isAuthenticated)
         delete $window.sessionStorage.token

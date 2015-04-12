@@ -12,7 +12,7 @@ app.controller "loginController", ($scope, $window, $location, UserService, Auth
         $location.path '/main'
         return
       ).error (status, data) ->
-        console.log status
+        console.log "Login error: #{status}"
         console.log data
         return
     return
