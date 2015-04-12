@@ -2,8 +2,13 @@
 
 app = angular.module 'App'
 
-app.factory "dataService", ($rootScope, GLOBAL_CONFIGS) ->
+app.factory "dataService", ($rootScope, $resource) ->
 
-    exports = {
+    Users = $resource "/api/users", {}, {}
 
+    getUsers = () ->
+        Users.get().$promise
+
+    {
+        getUsers
     }

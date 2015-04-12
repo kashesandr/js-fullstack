@@ -30,6 +30,12 @@ user =
     }, (error, results) ->
       callback error, results[0]
 
+  findAll: (callback) ->
+    connection.query {
+      sql: "SELECT * FROM users"
+    }, (error, results) ->
+      callback error, results
+
 module.exports = {
   user
 }

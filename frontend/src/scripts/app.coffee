@@ -2,12 +2,16 @@
 
 app = angular
 
-.module 'App', ['angularMoment', 'ui.bootstrap', 'GlobalConfigs', 'ngRoute']
+.module 'App', ['angularMoment', 'ui.bootstrap', 'GlobalConfigs', 'ngRoute', 'ngResource']
 
 .config ($httpProvider, $routeProvider) ->
   $httpProvider.interceptors.push 'TokenInterceptor'
   $routeProvider
-    .when '/main',
+    .when '/',
+      templateUrl: 'scripts/pages/main/template.html'
+      controller: 'mainController'
+      access: requiredLogin: false
+    .when '/edit',
       templateUrl: 'scripts/pages/main/template.html'
       controller: 'mainController'
       access: requiredLogin: true

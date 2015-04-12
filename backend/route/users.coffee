@@ -36,7 +36,12 @@ logout = (req, res) ->
   else
     res.sendStatus 401
 
+getAll = (req, res) ->
+  db.user.findAll (error, results) ->
+    res.json {result: results}
+
 module.exports = {
   login
   logout
+  getAll
 }

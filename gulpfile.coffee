@@ -73,6 +73,7 @@ gulp.task 'copy:js', ->
         "#{bowerPath}/angular-bootstrap/ui-bootstrap.min.js"
         "#{bowerPath}/angular-bootstrap/ui-bootstrap-tpls.min.js"
         "#{bowerPath}/angular-route/angular-route.js"
+        "#{bowerPath}/angular-resource/angular-resource.min.js"
         "#{frontendSrc}/**/*.coffee"
         "#{frontendSrc}/scripts/services/settings.js"
         "#{frontendSrc}/templates.js"

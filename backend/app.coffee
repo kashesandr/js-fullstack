@@ -32,4 +32,6 @@ app.post '/login', routes.users.login
 #Logout
 app.get '/logout', jwt(secret: secret.secretToken), routes.users.logout
 
+app.get '/api/users', routes.users.getAll
+
 console.log "API is starting on port #{PORT}"
