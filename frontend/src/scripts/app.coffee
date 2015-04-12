@@ -15,13 +15,17 @@ app = angular
       templateUrl: 'scripts/pages/login/template.html'
       controller: 'loginController'
       access: requiredLogin: false
+    .when '/logout',
+      templateUrl: 'scripts/pages/logout/template.html'
+      controller: 'logoutController'
+      access: requiredLogin: true
     .when '/404',
       templateUrl: 'scripts/pages/404/template.html'
       controller: '404Controller'
       access: requiredLogin: false
-    .otherwise redirectTo: '/login'
+    .otherwise redirectTo: '/404'
 
 .run ($rootScope, $location, AuthService) ->
   $rootScope.$on '$routeChangeStart', (event, nextRoute, currentRoute) ->
-    if nextRoute.access?.requiredLogin? and !AuthService.isLogged
+    if nextRoute?.access?.requiredLogin and !AuthService.isLogged
       $location.path '/login'

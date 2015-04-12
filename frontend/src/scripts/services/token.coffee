@@ -14,14 +14,14 @@ app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
       $q.reject rejection
 
     response: (response) ->
-      if response isnt null and response.status is 200 and $window.sessionStorage.token and !AuthService.isAuthenticated
-        AuthService.isAuthenticated = true
+      if response isnt null and response.status is 200 and $window.sessionStorage.token and !AuthService.isLogged
+        AuthService.isLogged = true
       response or $q.when(response)
 
     responseError: (rejection) ->
-      if rejection != null and rejection.status == 401 and ($window.sessionStorage.token or AuthService.isAuthenticated)
+      if rejection != null and rejection.status == 401 and ($window.sessionStorage.token or AuthService.isLogged)
         delete $window.sessionStorage.token
-        AuthService.isAuthenticated = false
+        AuthService.isLogged = false
         $location.path '/login'
       $q.reject rejection
   }

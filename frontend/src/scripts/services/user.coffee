@@ -12,4 +12,5 @@ app.factory 'UserService', ($http, GLOBAL_CONFIGS) ->
         username: username
         password: password
     logOut: ->
+      $http.get "#{apiUrl}/logout"
   }

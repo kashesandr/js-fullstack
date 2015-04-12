@@ -30,10 +30,6 @@ user =
     }, (error, results) ->
       callback error, results[0]
 
-
-
-
-
 module.exports = {
   user
 }

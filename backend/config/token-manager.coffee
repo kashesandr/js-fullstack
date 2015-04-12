@@ -1,29 +1,16 @@
-client = require 'mysql'
+redis = require 'redis'
+redisClient = redis.createClient 6379
+
+redisClient.on 'error', (error) ->
+  console.log "Redis error: #{error}"
+
+redisClient.on 'connect', () ->
+  console.log "Redis is ready"
 
 TOKEN_EXPIRATION = 60
 TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60
 
 # token verification
-
-verifyToken = (req, res, next) ->
-  token = getToken(req.headers)
-  client.get token, (err, reply) ->
-    if err
-      console.log err
-      return res.send(500)
-    if reply
-      res.send 401
-    else
-      next()
-    return
-  return
-
-expireToken = (headers) ->
-  token = getToken(headers)
-  if token != null
-    client.set token, is_expired: true
-    client.expire token, TOKEN_EXPIRATION_SEC
-  return
 
 getToken = (headers) ->
   if headers and headers.authorization
@@ -32,10 +19,24 @@ getToken = (headers) ->
     if part.length == 2
       token = part[1]
       part[1]
+
+verifyToken = (req, res, next) ->
+  token = getToken req.headers
+  redisClient.get token, (err, reply) ->
+    if err
+      console.log err
+      return res.send(500)
+    if reply
+      res.send 401
     else
-      null
-  else
-    null
+      next()
+
+expireToken = (headers) ->
+  token = getToken headers
+  if token != null
+    redisClient.set token, is_expired: true
+    redisClient.expire token, TOKEN_EXPIRATION_SEC
+  return
 
 module.exports = {
   TOKEN_EXPIRATION
