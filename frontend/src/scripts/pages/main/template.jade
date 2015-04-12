@@ -2,6 +2,8 @@
     .row
         .col-md-10.col-md-offset-1
             h1 App
+            a(ng-if="!isLoggedIn" href="#/login") Log in
+            a(ng-if="isLoggedIn" href="#/logout") Log out
             table.table.table-striped.table-bordered.table-hover.table-condensed
                 thead
                     th #
@@ -31,6 +33,7 @@
             br
             .row
                 .col-md-4
+                    p.text-danger(ng-if="passwordChecked == false") Passwords have to be exactly the same
                     form(ng-show="showForm" ng-init="form")
                         .form-group
                             input.form-control(ng-model="form.username" placeholder="Username" required )

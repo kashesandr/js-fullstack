@@ -9,7 +9,7 @@ app.controller "loginController", ($scope, $window, $location, UserService, Auth
       UserService.logIn(username, password).success( (data) ->
         AuthService.isLogged = true
         $window.sessionStorage.token = data.token
-        $location.path '/main'
+        $location.path '/'
         return
       ).error (status, data) ->
         console.log "Login error: #{status}"

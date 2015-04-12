@@ -2,17 +2,18 @@
 
 app = angular.module 'App'
 
-app.controller "mainController", ($scope, dataService) ->
+app.controller "mainController", ($scope, dataService, AuthService) ->
   $scope.data = []
   $scope.orderByField = 'username';
   $scope.reverseSort = false;
   $scope.showForm = false
+  $scope.isLoggedIn = AuthService.isLogged
+  $scope.passwordChecked = null
 
   dataService.getUsers()
   .then (data) ->
     $scope.data = data.result
 
   $scope.formSubmit = (data) ->
-    if data.password isnt data.passwordcheck
-      console.log 'error'
-    console.log data
+    $scope.passwordChecked = data.password is data.passwordcheck
+    return if !$scope.passwordChecked
