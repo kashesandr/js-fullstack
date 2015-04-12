@@ -4,14 +4,14 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "postinstall": "bower update"
+    "postinstall": "bower update",
+    "start": "node ./backend/main.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kashesandr/test-app.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "Alexander Kasheverov",
   "license": "Apache License",
   "bugs": {
@@ -19,7 +19,16 @@
   },
   "homepage": "https://github.com/kashesandr/test-app",
   "dependencies": {
-    "moment": "^2.9.0"
+    "bcrypt": "^0.8.2",
+    "body-parser": "~1.12.2",
+    "coffee-script": "~1.9.1",
+    "express": "~4.12.3",
+    "express-jwt": "~3.0.0",
+    "jsonwebtoken": "~5.0.0",
+    "moment": "^2.9.0",
+    "morgan": "~1.5.2",
+    "mysql": "git://github.com/felixge/node-mysql",
+    "node-mysql": "~0.4.2"
   },
   "devDependencies": {
     "coffee-script": "^1.9.1",
