@@ -22,3 +22,30 @@
                         td {{item.street}}
                         td {{item.zip}}
                         td {{item.location}}
+
+            button.btn-default.btn(ng-click="showForm = !showForm") Add
+            button.btn-default.btn(ng-click="") Edit
+            button.btn-default.btn(ng-click="") Delete
+
+            br
+            br
+            .row
+                .col-md-4
+                    form(ng-show="showForm" ng-init="form")
+                        .form-group
+                            input.form-control(ng-model="form.username" placeholder="Username" required )
+                        .form-group
+                            input.form-control(type="password" ng-model="form.password" placeholder="Password" required )
+                        .form-group
+                            input.form-control(type="password" ng-model="form.passwordcheck" placeholder="Check password" required )
+                        .form-group
+                            input.form-control(ng-model="form.firstname" placeholder="First name" required )
+                        .form-group
+                            input.form-control(ng-model="form.lastname" placeholder="Last name" required )
+                        .form-group
+                            input.form-control(ng-model="form.street" placeholder="Street (optional)")
+                        .form-group
+                            input.form-control(ng-model="form.zip" placeholder="ZIP (optional)")
+                        .form-group
+                            input.form-control(ng-model="form.location" placeholder="Location (optional)")
+                        button.btn.btn-default(type="submit" ng-click="formSubmit(form)") Submit
