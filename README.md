@@ -3,12 +3,12 @@ a fullstack js app (nodejs, express, mysql, angular, bootstrap)
 
 # to run
 1. configure
-1.1 mysql (find schema and test data in /sql folder, find config.jon file in the /backend/config folder)
-1.2 other (find settings.json file in the root folder)
+  1. mysql (find schema and test data in /sql folder, find config.jon file in the /backend/config folder)
+  2. other (find settings.json file in the root folder)
 2. npm install
-2. gulp
-3. npm start
-4. open browser on http://localhost:3001 (not 127.0.0.1:3001)
+3. gulp
+4. npm start
+5. open browser on http://localhost:3001 (not 127.0.0.1:3001)
 
 # working on windows (as me actually) is pain
 there might be some extra unexpected work when install dependencies (e.g. redis)
