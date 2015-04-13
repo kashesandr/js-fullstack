@@ -2,7 +2,9 @@
 a fullstack js app (nodejs, express, mysql, angular, bootstrap)
 
 # to run
-1. configure mysql (find schema and test data in /sql folder)
+1. configure
+1.1 mysql (find schema and test data in /sql folder, find config.jon file in the /backend/config folder)
+1.2 other (find settings.json file in the root folder)
 2. npm install
 2. gulp
 3. npm start

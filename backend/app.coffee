@@ -1,3 +1,4 @@
+fs = require "fs"
 express = require 'express'
 app = express()
 jwt = require 'express-jwt'
@@ -8,22 +9,24 @@ secret = require './config/secret'
 path = require "path"
 root = path.join __dirname, ".."
 frontend = path.join root, 'frontend', 'build'
+GLOBAL_CONFIGS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", 'settings.json')), 'utf8').GLOBAL_CONFIGS
+API = GLOBAL_CONFIGS.api
 
-hostname = process.env.HOSTNAME || 'localhost'
-PORT = 3001
+HOSTNAME = API.host
+PORT = process.argv[2] || API.port
 
 app.use express.static frontend
 app.use bodyParser()
 app.use bodyParser.urlencoded extended: true
 app.use morgan()
-app.listen PORT, hostname
+app.listen PORT, HOSTNAME
 
 # Routes
 routes =
   users: require './route/users'
 
 app.all '*', (req, res, next) ->
-  res.set 'Access-Control-Allow-Origin', 'http://localhost'
+  res.set 'Access-Control-Allow-Origin', "http://#{HOSTNAME}"
   res.set 'Access-Control-Allow-Credentials', true
   res.set 'Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT'
   res.set 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization'

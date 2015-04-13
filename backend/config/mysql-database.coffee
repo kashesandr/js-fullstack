@@ -1,13 +1,15 @@
+fs = require "fs"
+path = require "path"
 mysql = require 'mysql'
 SALT_WORK_FACTOR = 10
-mysqlOptions = {}
+CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8').mysql
 
 connection = mysql.createConnection
-  host: 'localhost'
-  database: 'test-app'
-  user: 'root'
-  password: 'root'
-  port: 3306
+  host: CONFIGS.host
+  database: CONFIGS.database
+  user: CONFIGS.user
+  password: CONFIGS.password
+  port: CONFIGS.port
 
 connection.connect (error) ->
   if error
