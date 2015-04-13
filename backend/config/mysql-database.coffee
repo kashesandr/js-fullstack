@@ -1,5 +1,4 @@
 mysql = require 'mysql'
-bcrypt = require 'bcrypt'
 SALT_WORK_FACTOR = 10
 mysqlOptions = {}
 
