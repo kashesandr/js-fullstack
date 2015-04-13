@@ -1,21 +1,26 @@
-express = require('express')
+express = require 'express'
 app = express()
-jwt = require('express-jwt')
-bodyParser = require('body-parser') # bodyparser + json + urlencoder
-morgan = require('morgan') # logger
-tokenManager = require('./config/token-manager')
-secret = require('./config/secret')
+jwt = require 'express-jwt'
+bodyParser = require 'body-parser' # bodyparser + json + urlencoder
+morgan = require 'morgan' # logger
+tokenManager = require './config/token-manager'
+secret = require './config/secret'
+path = require "path"
+root = path.join __dirname, ".."
+frontend = path.join root, 'frontend', 'build'
 
+hostname = process.env.HOSTNAME || 'localhost'
 PORT = 3001
 
-app.listen PORT
+app.use express.static frontend
 app.use bodyParser()
+app.use bodyParser.urlencoded extended: true
 app.use morgan()
-app.use express.static('../frontend/build')
+app.listen PORT, hostname
 
 #Routes
 routes = {}
-routes.users = require('./route/users')
+routes.users = require './route/users'
 
 app.all '*', (req, res, next) ->
   res.set 'Access-Control-Allow-Origin', 'http://localhost'
