@@ -2,7 +2,8 @@
 a fullstack js app (nodejs, express, mysql, angular, bootstrap)
 
 # to run
-1. npm install
+1. configure mysql (see schema and test data in /sql folder)
+2. npm install
 2. gulp
 3. npm start
 4. open browser on http://localhost:3001
