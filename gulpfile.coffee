@@ -68,8 +68,6 @@ gulp.task 'copy:js', ->
         "#{bowerPath}/jquery/dist/jquery.js"
         "#{bowerPath}/bootstrap/dist/js/bootstrap.min.js"
         "#{bowerPath}/angular/angular.min.js"
-        "#{bowerPath}/moment/min/moment.min.js"
-        "#{bowerPath}/angular-moment/angular-moment.min.js"
         "#{bowerPath}/angular-bootstrap/ui-bootstrap.min.js"
         "#{bowerPath}/angular-bootstrap/ui-bootstrap-tpls.min.js"
         "#{bowerPath}/angular-route/angular-route.js"

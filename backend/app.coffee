@@ -18,9 +18,9 @@ app.use bodyParser.urlencoded extended: true
 app.use morgan()
 app.listen PORT, hostname
 
-#Routes
-routes = {}
-routes.users = require './route/users'
+# Routes
+routes =
+  users: require './route/users'
 
 app.all '*', (req, res, next) ->
   res.set 'Access-Control-Allow-Origin', 'http://localhost'
@@ -31,10 +31,10 @@ app.all '*', (req, res, next) ->
     return res.send(200)
   next()
 
-#Login
+# Login
 app.post '/login', routes.users.login
 
-#Logout
+# Logout
 app.get '/logout', jwt(secret: secret.secretToken), routes.users.logout
 
 app.get '/api/users', routes.users.getAll

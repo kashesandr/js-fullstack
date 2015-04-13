@@ -2,7 +2,7 @@
 
 app = angular
 
-.module 'App', ['angularMoment', 'ui.bootstrap', 'GlobalConfigs', 'ngRoute', 'ngResource']
+.module 'App', ['ui.bootstrap', 'GlobalConfigs', 'ngRoute', 'ngResource']
 
 .config ($httpProvider, $routeProvider) ->
   $httpProvider.interceptors.push 'TokenInterceptor'
