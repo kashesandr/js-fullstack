@@ -4,6 +4,6 @@
     "port": 3306,
     "database": "test-app",
     "user": "root",
-    "password": "root"
+    "password": ""
   }
 }

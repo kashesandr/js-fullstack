@@ -4,11 +4,18 @@ app = angular.module 'App'
 
 app.factory "dataService", ($rootScope, $resource) ->
 
-    Users = $resource "/api/users", {}, {}
+    User = $resource "/api/users", {}, {
+        'get': {method: 'GET'}
+        'save': {method: 'POST'}
+    }
 
     getUsers = () ->
-        Users.get().$promise
+        User.get().$promise
+
+    addUser = (data) ->
+        User.save(data).$promise
 
     {
         getUsers
+        addUser
     }

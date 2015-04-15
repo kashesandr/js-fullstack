@@ -1,7 +1,7 @@
-db = require('../config/mysql-database')
+db = require('./database-controller')
 jwt = require('jsonwebtoken')
-secret = require('../config/secret')
-tokenManager = require('../config/token-manager')
+secret = require('./secret')
+tokenManager = require('./token-manager')
 
 login = (req, res) ->
   username = req.body.username or ''
@@ -40,8 +40,13 @@ getAll = (req, res) ->
   db.user.findAll (error, results) ->
     res.json {result: results}
 
+addUser = (req, res) ->
+  db.user.addUser req.body, (error, results) ->
+    res.json {result: results}
+
 module.exports = {
   login
   logout
   getAll
+  addUser
 }

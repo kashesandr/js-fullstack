@@ -2,8 +2,8 @@
     .row
         .col-md-10.col-md-offset-1
             h1 App
-            a(ng-if="!isLoggedIn" href="#/login") Log in
-            a(ng-if="isLoggedIn" href="#/logout") Log out
+            a(ng-if="!isLoggedIn" href="#/login") (Log in)
+            a(ng-if="isLoggedIn" href="#/logout") (Log out)
             table.table.table-striped.table-bordered.table-hover.table-condensed
                 thead
                     th #
@@ -25,22 +25,20 @@
                         td {{item.zip}}
                         td {{item.location}}
 
-            button.btn-default.btn(ng-click="showForm = !showForm") Add
-            button.btn-default.btn(ng-click="") Edit
-            button.btn-default.btn(ng-click="") Delete
-
-            br
-            br
-            .row
+            .row(ng-show="isLoggedIn")
+                .col-md-4
+                    button.btn-default.btn(ng-click="showForm = !showForm") Add
+                    button.btn-default.btn(ng-click="lala") Edit
+                    button.btn-default.btn(ng-click="kfkf") Delete
                 .col-md-4
                     p.text-danger(ng-if="passwordChecked == false") Passwords have to be exactly the same
-                    form(ng-show="showForm" ng-init="form")
+                    form(ng-show="showForm" ng-init="form={}")
                         .form-group
                             input.form-control(ng-model="form.username" placeholder="Username" required )
                         .form-group
-                            input.form-control(type="password" ng-model="form.password" placeholder="Password" required )
+                            input.form-control(ng-model="form.password" placeholder="Password" required type="password")
                         .form-group
-                            input.form-control(type="password" ng-model="form.passwordcheck" placeholder="Check password" required )
+                            input.form-control(ng-model="form.passwordcheck" placeholder="Check password" required type="password")
                         .form-group
                             input.form-control(ng-model="form.firstname" placeholder="First name" required )
                         .form-group

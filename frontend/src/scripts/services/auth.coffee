@@ -5,4 +5,5 @@ app = angular.module 'App'
 app.factory 'AuthService', ->
   {
     isLogged: false
+    username: ''
   }

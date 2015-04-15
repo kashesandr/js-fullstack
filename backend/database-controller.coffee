@@ -37,6 +37,21 @@ user =
     }, (error, results) ->
       callback error, results
 
+  addUser: (user, callback) ->
+    connection.query {
+      sql: "INSERT INTO users (`username`, `password`, `firstname`, `lastname`, `street`, `zip`, `location`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      values: [
+        user.username
+        user.password
+        user.firstname
+        user.lastname
+        user.street || ''
+        user.zip || ''
+        user.location || ''
+      ]
+    }, (error, results) ->
+      callback error, results
+
 module.exports = {
   user
 }

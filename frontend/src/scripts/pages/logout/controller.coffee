@@ -6,6 +6,7 @@ app.controller "logoutController", ($scope, $location, $window, AuthService, Use
   if AuthService.isLogged
     UserService.logOut().success((data) ->
       AuthService.isLogged = false
+      AuthService.username = ''
       delete $window.sessionStorage.token
       $location.path '/'
       return
