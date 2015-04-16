@@ -8,13 +8,14 @@ inject = require 'gulp-inject'
 concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 coffee = require 'gulp-coffee'
-styl = require 'gulp-styl'
+stylus = require 'gulp-stylus'
 batch = require 'gulp-batch'
 wrap = require 'gulp-wrap'
 gulpNgConfig = require "gulp-ng-config"
 fs = require "fs"
 replace = require "gulp-replace"
 CONFIGS = JSON.parse fs.readFileSync './settings.json', 'utf8'
+es = require 'event-stream'
 
 frontendSrc = "frontend/src"
 frontendDest = "frontend/build"
@@ -89,11 +90,11 @@ gulp.task 'copy:html', ->
     .pipe(gulp.dest(frontendDest))
 
 gulp.task 'copy:css', ->
-    gulp.src([
-        "#{bowerPath}/bootstrap/dist/css/bootstrap.min.css"
-        "#{frontendSrc}/styles/**/*.styl"
-    ])
-    .pipe(gulpif(/[.]styl$/, styl()))
+    vendor = gulp.src("#{bowerPath}/bootstrap/dist/css/bootstrap.min.css")
+    local = gulp.src("#{frontendSrc}/styles/**/*.styl")
+    .pipe(stylus())
+
+    es.concat(vendor, local)
     .pipe(concat('all.css'))
     .pipe(gulp.dest("#{frontendDest}/css"))
 

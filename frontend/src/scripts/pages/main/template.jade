@@ -4,19 +4,31 @@
             h1 App
             a(ng-if="!isLoggedIn" href="#/login") (Log in)
             a(ng-if="isLoggedIn" href="#/logout") (Log out)
-            table.table.table-striped.table-bordered.table-hover.table-condensed
+            table#users-table.table.table-striped.table-bordered.table-hover.table-condensed
                 thead
-                    th #
-                    th(ng-click="orderByField='username'; reverseSort = !reverseSort") Username
-                    th(ng-click="orderByField='password'; reverseSort = !reverseSort") Password
-                    th(ng-click="orderByField='firstname'; reverseSort = !reverseSort") First Name
-                    th(ng-click="orderByField='lastname'; reverseSort = !reverseSort") Last Name
-                    th(ng-click="orderByField='street'; reverseSort = !reverseSort") Street
-                    th(ng-click="orderByField='zip'; reverseSort = !reverseSort") ZIP
-                    th(ng-click="orderByField='location'; reverseSort = !reverseSort") Location
+                    th 
+                        a(href="javascript:;" ng-click="orderByField='id'; reverseSort = !reverseSort") UID
+                    th
+                        a(href="javascript:;" ng-click="orderByField='username'; reverseSort = !reverseSort")  Username
+                    th
+                        a(href="javascript:;" ng-click="orderByField='password'; reverseSort = !reverseSort") Password
+                    th
+                        a(href="javascript:;" ng-click="orderByField='firstname'; reverseSort = !reverseSort") First Name
+                    th
+                        a(href="javascript:;" ng-click="orderByField='lastname'; reverseSort = !reverseSort") Last Name
+                    th
+                        a(href="javascript:;" ng-click="orderByField='street'; reverseSort = !reverseSort") Street
+                    th
+                        a(href="javascript:;" ng-click="orderByField='zip'; reverseSort = !reverseSort") ZIP
+                    th
+                        a(href="javascript:;" ng-click="orderByField='location'; reverseSort = !reverseSort") Location
                 tbody
-                    tr(ng-repeat="item in data | orderBy:orderByField:reverseSort")
-                        td {{$index}}
+                    tr(
+                        ng-repeat="item in data | orderBy:orderByField:reverseSort"
+                        ng-click="setSelectedRow(item.id)"
+                        ng-class="{selected: item.id === currentSelectedRow}"
+                    )
+                        td {{item.id}}
                         td {{item.username}}
                         td {{item.password}}
                         td {{item.firstname}}
@@ -28,8 +40,8 @@
             .row(ng-show="isLoggedIn")
                 .col-md-4
                     button.btn-default.btn(ng-click="showForm = !showForm") Add
-                    button.btn-default.btn(ng-click="lala") Edit
-                    button.btn-default.btn(ng-click="kfkf") Delete
+                    button.btn-default.btn(ng-if="currentSelectedRow" ng-click="") Edit
+                    button.btn-default.btn(ng-if="currentSelectedRow" ng-click="") Delete
                 .col-md-4
                     p.text-danger(ng-if="passwordChecked == false") Passwords have to be exactly the same
                     form(ng-show="showForm" ng-init="form={}")
