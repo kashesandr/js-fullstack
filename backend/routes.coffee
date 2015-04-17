@@ -37,16 +37,31 @@ logout = (req, res) ->
     res.sendStatus 401
 
 getAll = (req, res) ->
-  db.user.findAll (error, results) ->
-    res.json {result: results}
+  db.user.findAll (error, result) ->
+    res.json {result: result}
 
 addUser = (req, res) ->
-  db.user.addUser req.body, (error, results) ->
-    res.json {result: results}
+  tokenManager.verifyToken req, res, ->
+    db.user.addUser req.body, (error, result) ->
+      res.json {result: result}
+
+editUser = (req, res) ->
+  tokenManager.verifyToken req, res, ->
+    db.user.editUser req.body, (error, result) ->
+      res.json {result: result}
+
+deleteUser = (req, res) ->
+  tokenManager.verifyToken req, res, ->
+    id = req.params.id
+    db.user.deleteUser id, (error, result) ->
+      res.json {result: result}
+
 
 module.exports = {
   login
   logout
   getAll
   addUser
+  editUser
+  deleteUser
 }

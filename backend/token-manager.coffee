@@ -20,7 +20,7 @@ getToken = (headers) ->
       token = part[1]
       part[1]
 
-verifyToken = (req, res, next) ->
+verifyToken = (req, res, callback) ->
   token = getToken req.headers
   redisClient.get token, (err, reply) ->
     if err
@@ -29,7 +29,7 @@ verifyToken = (req, res, next) ->
     if reply
       res.send 401
     else
-      next()
+      callback()
 
 expireToken = (headers) ->
   token = getToken headers

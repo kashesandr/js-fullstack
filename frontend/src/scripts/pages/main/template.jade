@@ -22,26 +22,45 @@
                         a(href="javascript:;" ng-click="orderByField='zip'; reverseSort = !reverseSort") ZIP
                     th
                         a(href="javascript:;" ng-click="orderByField='location'; reverseSort = !reverseSort") Location
+                    th(ng-if="editMode") Action
                 tbody
                     tr(
                         ng-repeat="item in data | orderBy:orderByField:reverseSort"
                         ng-click="setSelectedRow(item.id)"
-                        ng-class="{selected: item.id === currentSelectedRow}"
+                        ng-class="{selected: item.id === currentSelectedId}"
                     )
-                        td {{item.id}}
-                        td {{item.username}}
-                        td {{item.password}}
-                        td {{item.firstname}}
-                        td {{item.lastname}}
-                        td {{item.street}}
-                        td {{item.zip}}
-                        td {{item.location}}
+                        td
+                            input.form-control(ng-model="item.id" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.id}}
+                        td
+                            input.form-control(ng-model="item.username" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.username}}
+                        td
+                            input.form-control(ng-model="item.password" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.password}}
+                        td
+                            input.form-control(ng-model="item.firstname" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.firstname}}
+                        td
+                            input.form-control(ng-model="item.lastname" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.lastname}}
+                        td
+                            input.form-control(ng-model="item.street" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.street}}
+                        td
+                            input.form-control(ng-model="item.zip" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.zip}}
+                        td
+                            input.form-control(ng-model="item.location" ng-if="editMode")
+                            span(ng-if="!editMode") {{item.location}}
+                        td(ng-if="editMode")
+                            button.btn-primary.btn(ng-click="editUser(item)") Edit
 
             .row(ng-show="isLoggedIn")
                 .col-md-4
-                    button.btn-default.btn(ng-click="showForm = !showForm") Add
-                    button.btn-default.btn(ng-if="currentSelectedRow" ng-click="") Edit
-                    button.btn-default.btn(ng-if="currentSelectedRow" ng-click="") Delete
+                    button.btn-success.btn(ng-click="showForm = !showForm") Add
+                    button.btn-primary.btn(ng-if="currentSelectedId" ng-click="editMode = true") Edit
+                    button.btn-danger.btn(ng-if="currentSelectedId" ng-click="deleteUser(currentSelectedId)") Delete
                 .col-md-4
                     p.text-danger(ng-if="passwordChecked == false") Passwords have to be exactly the same
                     form(ng-show="showForm" ng-init="form={}")

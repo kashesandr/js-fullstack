@@ -28,8 +28,8 @@ user =
     connection.query {
       sql: "SELECT * FROM users where #{key} = ?"
       values: [value]
-    }, (error, results) ->
-      callback error, results[0]
+    }, (error, result) ->
+      callback error, result[0]
 
   findAll: (callback) ->
     connection.query {
@@ -49,8 +49,31 @@ user =
         user.zip || ''
         user.location || ''
       ]
-    }, (error, results) ->
-      callback error, results
+    }, (error, result) ->
+      callback error, result
+
+  editUser: (user, callback) ->
+    id = user.id
+    connection.query {
+      sql: "UPDATE table1 SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",
+      values: [
+        user.username
+        user.password
+        user.firstname
+        user.lastname
+        user.street || ''
+        user.zip || ''
+        user.location || ''
+      ]
+    }, (error, result) ->
+      callback error, result
+
+  deleteUser: (userId, callback) ->
+    connection.query {
+      sql: "DELETE FROM users where id = ?",
+      values: [userId]
+    }, (error, result) ->
+      callback error, result
 
 module.exports = {
   user

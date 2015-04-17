@@ -6,15 +6,16 @@ app.controller "mainController", ($scope, dataService, AuthService) ->
   $scope.data = []
   $scope.orderByField = 'id';
   $scope.reverseSort = false;
-
+  $scope.editMode = false
   $scope.showForm = false
   $scope.isLoggedIn = AuthService.isLogged
   $scope.username = AuthService.username
   $scope.passwordChecked = null
-  $scope.currentSelectedRow = null
+  $scope.currentSelectedId = null
 
   $scope.setSelectedRow = (id) ->
-    $scope.currentSelectedRow = id
+    return unless $scope.isLoggedIn
+    $scope.currentSelectedId = id
 
   getUsers = ->
     dataService.getUsers()
@@ -28,4 +29,14 @@ app.controller "mainController", ($scope, dataService, AuthService) ->
     dataService.addUser(form)
     .then (result) ->
       #insertId = result.insertId
+      getUsers()
+
+  $scope.editUser = (user) ->
+    dataService.editUser(user)
+    .then (result) ->
+      getUsers()
+
+  $scope.deleteUser = (userId) ->
+    dataService.deleteUser(userId)
+    .then (result) ->
       getUsers()

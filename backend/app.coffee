@@ -4,7 +4,6 @@ app = express()
 jwt = require 'express-jwt'
 bodyParser = require 'body-parser' # bodyparser + json + urlencoder
 morgan = require 'morgan' # logger
-tokenManager = require './token-manager'
 secret = require './secret'
 path = require "path"
 root = path.join __dirname, ".."
@@ -44,5 +43,11 @@ app.get '/api/users', routes.getAll
 
 # Add a user
 app.post '/api/users', routes.addUser
+
+# Edit user
+app.put '/api/users', routes.editUser
+
+# Delete user
+app.delete '/api/users/:id', routes.deleteUser
 
 console.log "API is starting on port #{PORT}"
