@@ -52,7 +52,7 @@ user =
     }, (error, result) ->
       callback error, result
 
-  editUser: (user, callback) ->
+  updateUser: (user, callback) ->
     id = user.id
     connection.query {
       sql: "UPDATE users SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",

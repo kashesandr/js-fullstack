@@ -46,9 +46,9 @@ module.exports =
       db.user.addUser req.body, (error, result) ->
         res.json {result: result}
 
-  editUser: (req, res) ->
+  updateUser: (req, res) ->
     tokenManager.verifyToken req, res, ->
-      db.user.editUser req.body, (error, result) ->
+      db.user.updateUser req.body, (error, result) ->
         res.json {result: result}
 
   deleteUser: (req, res) ->

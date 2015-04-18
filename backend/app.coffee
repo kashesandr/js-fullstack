@@ -44,8 +44,8 @@ app.get '/api/users', routes.getAll
 # Add a user
 app.post '/api/users', routes.addUser
 
-# Edit user
-app.put '/api/users', routes.editUser
+# Update user
+app.put '/api/users/:id', routes.updateUser
 
 # Delete user
 app.delete '/api/users/:id', routes.deleteUser
