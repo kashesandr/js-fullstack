@@ -50,4 +50,7 @@ app.put '/api/users', routes.editUser
 # Delete user
 app.delete '/api/users/:id', routes.deleteUser
 
+# check whether
+app.get '/api/checkuser/:username', routes.checkUser
+
 console.log "API is starting on port #{PORT}"

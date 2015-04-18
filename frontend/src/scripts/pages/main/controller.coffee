@@ -11,11 +11,7 @@ app.controller "mainController", ($scope, dataService, AuthService) ->
   $scope.isLoggedIn = AuthService.isLogged
   $scope.username = AuthService.username
   $scope.passwordChecked = null
-  $scope.currentSelectedId = null
-
-  $scope.setSelectedRow = (id) ->
-    return unless $scope.isLoggedIn
-    $scope.currentSelectedId = id
+  $scope.isUserExists = null
 
   getUsers = ->
     dataService.getUsers()
@@ -23,8 +19,12 @@ app.controller "mainController", ($scope, dataService, AuthService) ->
       $scope.data = data.result
   getUsers()
 
+  $scope.checkPassword = (password1, password2) ->
+    return unless angular.isDefined(password1) and angular.isDefined(password2)
+    $scope.passwordChecked = password1 is password2
+    $scope.passwordChecked
+
   $scope.formSubmit = (form) ->
-    $scope.passwordChecked = form.password is form.passwordcheck
     return if !$scope.passwordChecked
     dataService.addUser(form)
     .then (result) ->
@@ -40,3 +40,14 @@ app.controller "mainController", ($scope, dataService, AuthService) ->
     dataService.deleteUser(userId)
     .then (result) ->
       getUsers()
+
+  $scope.userExists = (username) ->
+    return false if username is ''
+    dataService.userExists(username)
+    .then (result) ->
+      $scope.isUserExists = result.result
+
+  $scope.getTemplate = (editMode) ->
+    templateEditMode = "scripts/pages/main/editable-content-template.html"
+    templateDefaultMode = "scripts/pages/main/default-content-template.html"
+    return if editMode is true then templateEditMode else templateDefaultMode

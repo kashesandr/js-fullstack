@@ -1,0 +1,21 @@
+td
+    input.form-control(ng-model="item.id")
+td
+    input.form-control(ng-model="item.username")
+td
+    input.form-control(ng-model="item.password")
+td
+    input.form-control(ng-model="item.firstname")
+td
+    input.form-control(ng-model="item.lastname")
+td
+    input.form-control(ng-model="item.street")
+td
+    input.form-control(ng-model="item.zip")
+td
+    input.form-control(ng-model="item.location")
+td(ng-show="isLoggedIn")
+    button.btn-success.btn.btn-xs(type="button" ng-click="editUser(item); item.editMode = false") Save
+    button.btn-primary.btn.btn-xs(type="button" ng-click="editCancel(); item.editMode = false") Cancel
+    button.btn-danger.btn.btn-xs(type="button" ng-click="deleteUser(item.id); item.editMode = false") Delete
+

@@ -75,6 +75,13 @@ user =
     }, (error, result) ->
       callback error, result
 
+  checkUser: (username, callback) ->
+    connection.query {
+      sql: "SELECT username FROM users WHERE username = ?"
+      values: [username]
+    }, (error, result) ->
+      callback error, result
+
 module.exports = {
   user
 }

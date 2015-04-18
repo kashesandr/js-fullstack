@@ -1,0 +1,10 @@
+td {{item.id}}
+td {{item.username}}
+td {{item.password}}
+td {{item.firstname}}
+td {{item.lastname}}
+td {{item.street}}
+td {{item.zip}}
+td {{item.location}}
+td(ng-show="isLoggedIn")
+    button.btn-default.btn.btn-xs(type="button" ng-click="item.editMode = true") Edit

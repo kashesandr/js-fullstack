@@ -11,6 +11,10 @@ app.factory "dataService", ($rootScope, $resource) ->
         'delete': {method: 'DELETE'}
     }
 
+    CheckUser = $resource "/api/checkuser/:username", {}, {
+        'get': {method: 'GET'}
+    }
+
     getUsers = () ->
         User.get().$promise
 
@@ -23,9 +27,13 @@ app.factory "dataService", ($rootScope, $resource) ->
     deleteUser = (userId) ->
         User.delete(id: userId).$promise
 
+    userExists = (username) ->
+      CheckUser.get({username: username}).$promise
+
     {
         getUsers
         addUser
         editUser
         deleteUser
+        userExists
     }
