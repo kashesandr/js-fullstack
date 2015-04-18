@@ -54,6 +54,7 @@ user =
 
   updateUser: (user, callback) ->
     id = user.id
+    callback(throw new Error "Error updating user, no id specified") if !id
     connection.query {
       sql: "UPDATE users SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",
       values: [
