@@ -15,7 +15,6 @@ td
 td
     input.form-control(ng-model="updatableUser.location")
 td(ng-show="isLoggedIn")
-    button.btn-success.btn.btn-xs(type="button" ng-click="updateUser(item);") Save
-    button.btn-primary.btn.btn-xs(type="button" ng-click="updateCancel(item);") Cancel
-    button.btn-danger.btn.btn-xs(type="button" ng-click="deleteUser(item.id);") Delete
-
+    button.form-control.btn-success.btn.btn-xs(type="button" ng-click="updateUser(item);") Save
+    button.form-control.btn-primary.btn.btn-xs(type="button" ng-click="cancelUpdating(item);") Cancel
+    button.form-control.btn-danger.btn.btn-xs(type="button" ng-click="deleteUser(item.id);") Delete

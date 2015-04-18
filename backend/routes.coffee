@@ -1,7 +1,10 @@
+fs = require "fs"
+path = require "path"
 db = require('./database-controller')
 jwt = require('jsonwebtoken')
-secret = require('./secret')
 tokenManager = require('./token-manager')
+GLOBAL_CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8')
+SECRET_TOKEN = GLOBAL_CONFIGS.secretToken
 
 module.exports =
 
@@ -19,7 +22,7 @@ module.exports =
       if password is user.password
         token = jwt.sign(
           { id: user.id },
-          secret.secretToken,
+          SECRET_TOKEN,
           expiresInMinutes: tokenManager.TOKEN_EXPIRATION
         )
         console.log "Logged in as #{user.username}"

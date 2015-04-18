@@ -3,7 +3,7 @@
 app = angular.module "App"
 
 app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
-  {
+
     request: (config) ->
       config.headers = config.headers or {}
       if $window.sessionStorage.token
@@ -24,4 +24,3 @@ app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
         AuthService.isLogged = false
         $location.path '/login'
       $q.reject rejection
-  }

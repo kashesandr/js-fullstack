@@ -3,60 +3,53 @@
 app = angular.module 'App'
 
 app.controller "mainController", ($scope, dataService, AuthService) ->
+
   $scope.data = []
   $scope.orderByField = 'id';
   $scope.reverseSort = false;
   $scope.updatableUser = {}
-  $scope.showForm = false
   $scope.isLoggedIn = AuthService.isLogged
   $scope.username = AuthService.username
-  $scope.passwordConfirmed = null
-  $scope.isUserExists = null
+
+  resetForm = ->
+    $scope.form = {}
+    $scope.showForm = false
 
   getUsers = ->
     dataService.getUsers()
     .then (data) ->
       $scope.data = data.result
 
-  $scope.checkPassword = (password1, password2) ->
-    return unless angular.isDefined(password1) and angular.isDefined(password2)
-    $scope.passwordConfirmed = password1 is password2
-    $scope.passwordConfirmed
-
-  $scope.formSubmit = (form) ->
+  $scope.formSubmit = (isValid, form) ->
+    return unless isValid
     dataService.addUser(form)
     .then (result) ->
-      #insertId = result.insertId
-      getUsers()
-      $scope.showForm = false
+      form.id = result.result.insertId
+      $scope.data.push form
+      resetForm()
 
   $scope.setUpdateMode = (user) ->
-    user.updateMode = true
     $scope.updatableUser = angular.copy user
 
   $scope.updateUser = (user) ->
     dataService.updateUser($scope.updatableUser)
     .then (result) ->
-      getUsers()
+      angular.extend user, $scope.updatableUser
+      $scope.cancelUpdating()
 
-  $scope.cancelUpdate = (user) ->
-    user.updateMode = false
+  $scope.cancelUpdating = (user) ->
     $scope.updatableUser = {}
 
   $scope.deleteUser = (userId) ->
     dataService.deleteUser(userId)
     .then (result) ->
-      getUsers()
+      $scope.data = $scope.data.filter((item) -> item.id isnt userId)
+      $scope.cancelUpdating()
 
-  $scope.userExists = (username) ->
-    return false if username is ''
-    dataService.userExists(username)
-    .then (result) ->
-      $scope.isUserExists = result.result
-
-  $scope.getTemplate = (editMode) ->
+  $scope.getTemplate = (id) ->
     templateEditMode = "scripts/pages/main/editable-content-template.html"
     templateDefaultMode = "scripts/pages/main/default-content-template.html"
-    return if editMode is true then templateEditMode else templateDefaultMode
+    return if id is $scope.updatableUser.id then templateEditMode else templateDefaultMode
 
   getUsers()
+  resetForm()

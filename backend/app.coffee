@@ -4,11 +4,12 @@ app = express()
 jwt = require 'express-jwt'
 bodyParser = require 'body-parser' # bodyparser + json + urlencoder
 morgan = require 'morgan' # logger
-secret = require './secret'
 path = require "path"
 root = path.join __dirname, ".."
 GLOBAL_CONFIGS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", 'settings.json')), 'utf8').GLOBAL_CONFIGS
+CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8')
 API = GLOBAL_CONFIGS.api
+SECRET_TOKEN = CONFIGS.secretToken
 
 HOSTNAME = API.host
 PORT = process.argv[2] || API.port
@@ -36,7 +37,7 @@ app.all '*', (req, res, next) ->
 app.post '/login', routes.login
 
 # Logout
-app.get '/logout', jwt(secret: secret.secretToken), routes.logout
+app.get '/logout', jwt(secret: SECRET_TOKEN), routes.logout
 
 # Get all users
 app.get '/api/users', routes.getAll

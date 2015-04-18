@@ -1,1 +1,0 @@
-exports.secretToken = 'aMdoeb5ed87zor1dkD6greDML81DcnrzeSD638ferF4jmplx'
