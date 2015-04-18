@@ -1,21 +1,21 @@
 td
-    input.form-control(ng-model="item.id")
+    input.form-control(ng-model="updatableUser.id" ng-disabled="true")
 td
-    input.form-control(ng-model="item.username")
+    input.form-control(ng-model="updatableUser.username")
 td
-    input.form-control(ng-model="item.password")
+    input.form-control(ng-model="updatableUser.password")
 td
-    input.form-control(ng-model="item.firstname")
+    input.form-control(ng-model="updatableUser.firstname")
 td
-    input.form-control(ng-model="item.lastname")
+    input.form-control(ng-model="updatableUser.lastname")
 td
-    input.form-control(ng-model="item.street")
+    input.form-control(ng-model="updatableUser.street")
 td
-    input.form-control(ng-model="item.zip")
+    input.form-control(ng-model="updatableUser.zip")
 td
-    input.form-control(ng-model="item.location")
+    input.form-control(ng-model="updatableUser.location")
 td(ng-show="isLoggedIn")
-    button.btn-success.btn.btn-xs(type="button" ng-click="editUser(item); item.editMode = false") Save
-    button.btn-primary.btn.btn-xs(type="button" ng-click="editCancel(); item.editMode = false") Cancel
-    button.btn-danger.btn.btn-xs(type="button" ng-click="deleteUser(item.id); item.editMode = false") Delete
+    button.btn-success.btn.btn-xs(type="button" ng-click="updateUser(item);") Save
+    button.btn-primary.btn.btn-xs(type="button" ng-click="updateCancel(item);") Cancel
+    button.btn-danger.btn.btn-xs(type="button" ng-click="deleteUser(item.id);") Delete
 

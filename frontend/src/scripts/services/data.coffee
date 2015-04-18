@@ -21,7 +21,7 @@ app.factory "dataService", ($rootScope, $resource) ->
     addUser = (data) ->
         User.save(data).$promise
 
-    editUser = (data) ->
+    updateUser = (data) ->
         User.update(data).$promise
 
     deleteUser = (userId) ->
@@ -33,7 +33,7 @@ app.factory "dataService", ($rootScope, $resource) ->
     {
         getUsers
         addUser
-        editUser
+        updateUser
         deleteUser
         userExists
     }

@@ -55,7 +55,7 @@ user =
   editUser: (user, callback) ->
     id = user.id
     connection.query {
-      sql: "UPDATE table1 SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",
+      sql: "UPDATE users SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",
       values: [
         user.username
         user.password
