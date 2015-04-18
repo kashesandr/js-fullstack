@@ -24,9 +24,8 @@ verifyToken = (req, res, callback) ->
   token = getToken req.headers
   redisClient.get token, (err, reply) ->
     if err
-      console.log err
-      return res.send(500)
-    if reply
+      return res.send 500
+    if reply or !token
       res.send 401
     else
       callback()
