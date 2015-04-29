@@ -1,4 +1,5 @@
 fs = require "fs"
+winston = require "winston"
 path = require "path"
 mysql = require 'mysql'
 SALT_WORK_FACTOR = 10
@@ -13,10 +14,10 @@ connection = mysql.createConnection
 
 connection.connect (error) ->
   if error
-    console.log "Connection refused to mysql: #{error.stack}"
-    console.log error
+    winston.error "Connection refused to mysql: #{error.stack}"
+    winston.error error
   else
-    console.log "Connection successful to mysql: id is #{connection.threadId}"
+    winston.info "Connection successful to mysql: id is #{connection.threadId}"
 
 user =
   findOne: (obj, callback) ->

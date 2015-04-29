@@ -1,11 +1,12 @@
 redis = require 'redis'
+winston = require 'winston'
 redisClient = redis.createClient 6379
 
 redisClient.on 'error', (error) ->
-  console.log "Redis error: #{error}"
+  winston.error "Redis error: #{error}"
 
 redisClient.on 'connect', () ->
-  console.log "Redis is ready"
+  winston.info "Redis is ready"
 
 TOKEN_EXPIRATION = 60
 TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60

@@ -1,4 +1,5 @@
 fs = require "fs"
+winston = require "winston"
 express = require 'express'
 app = express()
 jwt = require 'express-jwt'
@@ -55,4 +56,4 @@ app.delete '/api/users/:id', routes.deleteUser
 app.get '/api/checkuser/:username', routes.checkUser
 
 # here and in similar places to use winston or something like this instead of using console.log
-console.log "API is starting on port #{PORT}"
+winston.info "API is starting on port #{PORT}"

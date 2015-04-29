@@ -1,4 +1,5 @@
 fs = require "fs"
+winston = require "winston"
 path = require "path"
 db = require('./database-controller')
 jwt = require('jsonwebtoken')
@@ -16,7 +17,7 @@ module.exports =
 
     db.user.findOne { username: username }, (error, user) ->
       if error or user is undefined
-        console.log "#{error}"
+        winston.error "#{error}"
         return res.sendStatus 401
 
       if password is user.password
@@ -25,17 +26,17 @@ module.exports =
           SECRET_TOKEN,
           expiresInMinutes: tokenManager.TOKEN_EXPIRATION
         )
-        console.log "Logged in as #{user.username}"
+        winston.info "Logged in as #{user.username}"
         res.json token: token
       else
-        console.log "Attempt failed to login with #{user.username}"
+        winston.error "Attempt failed to login with #{user.username}"
         res.sendStatus 401
 
   logout: (req, res) ->
     if req.user
       tokenManager.expireToken req.headers
       delete req.user
-      console.log "Logged out"
+      winston.info "Logged out"
       res.sendStatus 200
     else
       res.sendStatus 401
