@@ -55,5 +55,4 @@ app.delete '/api/users/:id', routes.deleteUser
 # Check whether user exists or not
 app.get '/api/checkuser/:username', routes.checkUser
 
-# here and in similar places to use winston or something like this instead of using console.log
 winston.info "API is starting on port #{PORT}"
