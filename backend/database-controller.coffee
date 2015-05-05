@@ -19,6 +19,17 @@ connection.connect (error) ->
   else
     winston.info "Connection successful to mysql: id is #{connection.threadId}"
 
+queryAll = (sql, values, callback) ->
+  connection.query {
+    sql: sql
+    values: values
+  }, (error, result) ->
+    callback error, result
+
+query = (sql, values, callback) ->
+  queryAll sql, values, (error, results) ->
+    callback error, results[0]
+
 user =
   findOne: (obj, callback) ->
     key = null
@@ -26,63 +37,60 @@ user =
     for k, v of obj
       key = k
       value = v
-    connection.query {
-      sql: "SELECT * FROM users where #{key} = ?"
-      values: [value]
-    }, (error, result) ->
-      callback error, result[0]
+    sql = "SELECT * FROM users where #{key} = ?"
+    values = [value]
+    query sql, values, callback
 
   findAll: (callback) ->
-    connection.query {
-      sql: "SELECT * FROM users"
-    }, (error, results) ->
-      callback error, results
+    sql = "SELECT * FROM users"
+    values = []
+    queryAll sql, values, callback
 
   addUser: (user, callback) ->
-    connection.query {
-      sql: "INSERT INTO users (`username`, `password`, `firstname`, `lastname`, `street`, `zip`, `location`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      values: [
-        user.username
-        user.password
-        user.firstname
-        user.lastname
-        user.street || ''
-        user.zip || ''
-        user.location || ''
-      ]
-    }, (error, result) ->
-      callback error, result
+    sql = """
+      INSERT
+      INTO users (`username`, `password`, `firstname`, `lastname`, `street`, `zip`, `location`)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    """
+    values = [
+      user.username
+      user.password
+      user.firstname
+      user.lastname
+      user.street || ''
+      user.zip || ''
+      user.location || ''
+    ]
+    queryAll sql, values, callback
 
   updateUser: (user, callback) ->
     id = user.id
     callback(throw new Error "Error updating user, no id specified") if !id
-    connection.query {
-      sql: "UPDATE users SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=? WHERE id=#{id}",
-      values: [
-        user.username
-        user.password
-        user.firstname
-        user.lastname
-        user.street || ''
-        user.zip || ''
-        user.location || ''
-      ]
-    }, (error, result) ->
-      callback error, result
+    sql = """
+      UPDATE
+      users SET username=?, password=?, firstname=?, lastname=?, street=?, zip=?, location=?
+      WHERE id=#{id}
+    """
+    values = [
+      user.username
+      user.password
+      user.firstname
+      user.lastname
+      user.street || ''
+      user.zip || ''
+      user.location || ''
+    ]
+    queryAll sql, values, callback
 
   deleteUser: (userId, callback) ->
-    connection.query {
-      sql: "DELETE FROM users where id = ?",
-      values: [userId]
-    }, (error, result) ->
-      callback error, result
+    sql = "DELETE FROM users where id = ?"
+    values = [userId]
+    queryAll sql, values, callback
 
   checkUser: (username, callback) ->
-    connection.query {
-      sql: "SELECT username FROM users WHERE username = ?"
-      values: [username]
-    }, (error, result) ->
-      callback error, result
+    sql = "SELECT username FROM users WHERE username = ?"
+    values = [username]
+    queryAll sql, values, callback
 
 module.exports = {
   user
