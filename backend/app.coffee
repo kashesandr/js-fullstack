@@ -1,22 +1,22 @@
 fs = require "fs"
 winston = require "winston"
 express = require 'express'
-app = express()
 jwt = require 'express-jwt'
 bodyParser = require 'body-parser' # bodyparser + json + urlencoder
 morgan = require 'morgan' # logger
 path = require "path"
-root = path.join __dirname, ".."
 GLOBAL_CONFIGS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", 'settings.json')), 'utf8').GLOBAL_CONFIGS
 CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8')
+
 API = GLOBAL_CONFIGS.api
 SECRET_TOKEN = CONFIGS.secretToken
-
 HOSTNAME = API.host
 PORT = process.argv[2] || API.port
-frontendFolder = path.join root, 'frontend', 'build'
+rootPath = path.join __dirname, ".."
+frontEndPath = path.join rootPath, 'frontend', 'build'
 
-app.use express.static frontendFolder
+app = express()
+app.use express.static frontEndPath
 app.use bodyParser()
 app.use bodyParser.urlencoded extended: true
 app.use morgan()
