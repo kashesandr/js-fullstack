@@ -2,7 +2,7 @@ fs = require "fs"
 winston = require "winston"
 path = require "path"
 mysql = require 'mysql'
-SALT_WORK_FACTOR = 10
+Q = require 'q'
 CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8').mysql
 
 connection = mysql.createConnection
@@ -19,34 +19,39 @@ connection.connect (error) ->
   else
     winston.info "Connection successful to mysql: id is #{connection.threadId}"
 
-queryAll = (sql, values, callback) ->
+queryDeferred = (sql, values) ->
+  deferred = Q.defer()
   connection.query {
     sql: sql
     values: values
   }, (error, result) ->
-    callback error, result
-
-query = (sql, values, callback) ->
-  queryAll sql, values, (error, results) ->
-    callback error, results[0]
+    if error or result is undefined
+      winston.error "DB-CONTROLLER: error when processing a query(#{sql}): #{error}"
+      deferred.reject error
+    deferred.resolve result
+  deferred.promise
 
 user =
-  findOne: (obj, callback) ->
+  findOne: (obj) ->
+    deferred = Q.defer()
     key = null
     value = null
     for k, v of obj
       key = k
       value = v
-    sql = "SELECT * FROM users where #{key} = ?"
+    sql = "SELECT * FROM users where #{key} = ? LIMIT 1"
     values = [value]
-    query sql, values, callback
+    queryDeferred(sql, values)
+    .then (users) ->
+      deferred.resolve users[0]
+    deferred.promise
 
-  findAll: (callback) ->
+  findAll: ->
     sql = "SELECT * FROM users"
     values = []
-    queryAll sql, values, callback
+    queryDeferred sql, values
 
-  addUser: (user, callback) ->
+  addUser: (user) ->
     sql = """
       INSERT
       INTO users (`username`, `password`, `firstname`, `lastname`, `street`, `zip`, `location`)
@@ -61,9 +66,9 @@ user =
       user.zip || ''
       user.location || ''
     ]
-    queryAll sql, values, callback
+    queryDeferred sql, values
 
-  updateUser: (user, callback) ->
+  updateUser: (user) ->
     id = user.id
     callback(throw new Error "Error updating user, no id specified") if !id
     sql = """
@@ -80,17 +85,17 @@ user =
       user.zip || ''
       user.location || ''
     ]
-    queryAll sql, values, callback
+    queryDeferred sql, values
 
-  deleteUser: (userId, callback) ->
+  deleteUser: (userId) ->
     sql = "DELETE FROM users where id = ?"
     values = [userId]
-    queryAll sql, values, callback
+    queryDeferred sql, values
 
-  checkUser: (username, callback) ->
+  checkUser: (username) ->
     sql = "SELECT username FROM users WHERE username = ?"
     values = [username]
-    queryAll sql, values, callback
+    queryDeferred sql, values
 
 module.exports = {
   user
