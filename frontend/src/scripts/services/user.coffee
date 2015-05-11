@@ -2,16 +2,13 @@
 
 app = angular.module "App"
 
-app.factory 'UserService', ($http, GLOBAL_CONFIGS) ->
+app.factory 'UserService', ($http, API_URL) ->
 
-    API = GLOBAL_CONFIGS.api
-    apiUrl = "#{API.protocol}#{API.host}:#{API.port}#{API.path}"
-
-    {
-        logIn: (username, password) ->
-            $http.post "#{apiUrl}/login",
-              username: username
-              password: password
-        logOut: ->
-            $http.get "#{apiUrl}/logout"
-    }
+  {
+    logIn: (username, password) ->
+      $http.post "#{API_URL}/login",
+        username: username
+        password: password
+    logOut: ->
+      $http.get "#{API_URL}/logout"
+  }

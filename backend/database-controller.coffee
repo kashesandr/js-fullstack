@@ -25,9 +25,9 @@ queryDeferred = (sql, values) ->
     sql: sql
     values: values
   }, (error, result) ->
-    if error or result is undefined
-      winston.error "DB-CONTROLLER: error when processing a query(#{sql}): #{error}"
-      deferred.reject error
+    if error or !result
+      winston.error "DB-CONTROLLER: error when processing a query (#{sql}): #{error}"
+      return deferred.reject error
     deferred.resolve result
   deferred.promise
 
@@ -43,7 +43,11 @@ user =
     values = [value]
     queryDeferred(sql, values)
     .then (users) ->
+      if users?.length? is 0
+        return deferred.reject 'No users found.'
       deferred.resolve users[0]
+    .catch (error) ->
+      deferred.reject error
     deferred.promise
 
   findAll: ->

@@ -9,6 +9,7 @@ GLOBAL_CONFIGS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", 'settings
 CONFIGS = JSON.parse(fs.readFileSync(path.join __dirname, 'configs.json'), 'utf8')
 
 API = GLOBAL_CONFIGS.api
+API_URL = "#{API.url}"
 SECRET_TOKEN = CONFIGS.secretToken
 HOSTNAME = API.host
 PORT = process.argv[2] || API.port
@@ -35,24 +36,24 @@ app.all '*', (req, res, next) ->
   next()
 
 # Login
-app.post '/login', routes.login
+app.post "#{API_URL}/login", routes.login
 
 # Logout
-app.get '/logout', jwt(secret: SECRET_TOKEN), routes.logout
+app.get "#{API_URL}/logout", jwt(secret: SECRET_TOKEN), routes.logout
 
 # Get all users
-app.get '/api/users', routes.getAll
+app.get "#{API_URL}/users", routes.getAll
 
 # Add a user
-app.post '/api/users', routes.addUser
+app.post "#{API_URL}/users", routes.addUser
 
 # Update user
-app.put '/api/users/:id', routes.updateUser
+app.put "#{API_URL}/users/:id", routes.updateUser
 
 # Delete user
-app.delete '/api/users/:id', routes.deleteUser
+app.delete "#{API_URL}/users/:id", routes.deleteUser
 
 # Check whether user exists or not
-app.get '/api/checkuser/:username', routes.checkUser
+app.get "#{API_URL}/checkuser/:username", routes.checkUser
 
 winston.info "API is starting on port #{PORT}"

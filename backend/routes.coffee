@@ -12,11 +12,11 @@ module.exports =
   login: (req, res) ->
     username = req.body.username or ''
     password = req.body.password or ''
-    return res.sendStatus 401 if username is '' or password is ''
+    return res.sendStatus 500 if username is '' or password is ''
 
     db.user.findOne({username: username})
     .then (user) ->
-      if password is user.password
+      if user?.password is password
         token = jwt.sign(
           { id: user.id },
           SECRET_TOKEN,
@@ -26,7 +26,9 @@ module.exports =
         res.json token: token
       else
         winston.error "Attempt failed to log in as #{user.username}"
-        res.sendStatus 401
+        res.sendStatus 500
+    .catch (error) ->
+      res.sendStatus 500
 
   logout: (req, res) ->
     if req.user
@@ -35,24 +37,30 @@ module.exports =
       winston.info "Logged out"
       res.sendStatus 200
     else
-      res.sendStatus 401
+      res.sendStatus 500
 
   getAll: (req, res) ->
     db.user.findAll()
     .then (result) ->
       res.json result: result
+    .catch (error) ->
+      res.sendStatus 500
 
   addUser: (req, res) ->
     tokenManager.verifyToken req, res, ->
       db.user.addUser(req.body)
       .then (result) ->
         res.json result: result
+      .catch (error) ->
+        res.sendStatus 500
 
   updateUser: (req, res) ->
     tokenManager.verifyToken req, res, ->
       db.user.updateUser(req.body)
       .then (result) ->
         res.json result: result
+      .catch (error) ->
+        res.sendStatus 500
 
   deleteUser: (req, res) ->
     tokenManager.verifyToken req, res, ->
@@ -60,6 +68,8 @@ module.exports =
       db.user.deleteUser(id)
       .then (result) ->
         res.json result: result
+      .catch (error) ->
+        res.sendStatus 500
 
   checkUser: (req, res) ->
     tokenManager.verifyToken req, res, (d) ->
@@ -67,3 +77,5 @@ module.exports =
       db.user.checkUser(username)
       .then (result) ->
         res.json result: result.length > 0
+      .catch (error) ->
+        res.sendStatus 500

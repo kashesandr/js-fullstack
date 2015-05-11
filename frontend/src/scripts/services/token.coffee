@@ -4,6 +4,7 @@ app = angular.module "App"
 
 app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
 
+  {
     request: (config) ->
       config.headers = config.headers or {}
       if $window.sessionStorage.token
@@ -22,5 +23,6 @@ app.factory 'TokenInterceptor', ($q, $window, $location, AuthService) ->
       if rejection != null and rejection.status == 401 and ($window.sessionStorage.token or AuthService.isLogged)
         delete $window.sessionStorage.token
         AuthService.isLogged = false
-        $location.path '/login'
+        $location.path "/login"
       $q.reject rejection
+  }
